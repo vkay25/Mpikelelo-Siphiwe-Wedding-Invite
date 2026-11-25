@@ -30,6 +30,7 @@ h1{font-weight:normal;font-size:clamp(34px,8vw,54px);line-height:1.05;margin:12p
 .countdown{background:var(--navy);color:white;text-align:center;padding:26px 15px}.countdown h3{font-weight:normal;font-style:italic;font-size:25px;margin:0 0 18px}.timer{display:flex;justify-content:center;gap:10px}.unit{min-width:62px;padding:10px 8px;border:1px solid #b99550;border-radius:10px;background:#ffffff0b}.unit strong{display:block;font:bold 25px Arial,sans-serif;color:#f3d9a0}.unit small{font:10px Arial,sans-serif;letter-spacing:1px;color:#f7eaf0}
 .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:25px 16px}.action.secondary{background:white;color:var(--navy);border:1px solid #c8a45f;box-shadow:none}.notices{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:0 18px 24px}.notice{border:1px solid #e4c7d0;border-radius:10px;padding:12px 16px;color:var(--navy);font:bold 12px Arial,sans-serif;letter-spacing:1px}.footer{text-align:center;background:#f9edf1;padding:24px 15px;color:#6d5260;font:12px/1.7 Arial,sans-serif}.footer strong{color:var(--navy)}.bottom-share{text-align:center;padding:18px}
 .programme{margin:0 clamp(12px,4vw,36px) 26px;padding:clamp(20px,5vw,40px) clamp(16px,5vw,44px);border:1px solid #e6d4b6;border-radius:16px;background:linear-gradient(155deg,#fff8fa,#f8dce4);color:var(--navy)}.programme header{text-align:center}.programme .eyebrow{color:#745323;letter-spacing:2px}.programme h3{font-size:clamp(27px,6vw,42px);font-style:italic;font-weight:normal;margin:6px 0 18px}.programme ul{max-width:545px;margin:0 auto;padding:0;list-style:none;border-top:1px solid #c99d8980}.programme li{display:grid;grid-template-columns:3.1em 1fr;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid #c99d8980;font-size:clamp(16px,3vw,19px);line-height:1.4}.programme time{color:#745323;font-weight:bold;font-variant-numeric:tabular-nums}.programme small{display:block;font-size:.85em;color:#624353}
+.personal-guest{margin:18px auto 0;padding:10px 18px;border-top:1px solid #d9b76d;border-bottom:1px solid #d9b76d}.personal-guest .guest-label{display:block;font:10px Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#f4d99c}.personal-guest strong{display:block;margin-top:5px;font-size:20px;color:white}
 @media(max-width:560px){.detail-grid{grid-template-columns:1fr;gap:0}.detail{border-bottom:1px solid #f0e5e8}.detail:last-child{border:0}.timer{gap:6px}.unit{min-width:57px}.couple-names{max-width:520px}.name-row{font-size:clamp(19px,5.2vw,24px)}.name-row img{width:clamp(76px,20vw,94px);height:clamp(76px,20vw,94px)}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 </style>
@@ -41,6 +42,7 @@ h1{font-weight:normal;font-size:clamp(34px,8vw,54px);line-height:1.05;margin:12p
     <div class="monogram" aria-hidden="true">M <span style="color:#efb9c8">&amp;</span> S</div>
     <h1>You're<br>Invited</h1>
     <p>Join us as we celebrate the wedding of<br><strong>Mpikelelo Sikhosana &amp; Siphiwe Bhebhe</strong></p>
+    <p class="personal-guest" id="personalGuest" style="display:none"><span class="guest-label">Specially invited</span><strong id="guestName"></strong></p>
     <button class="open-btn" onclick="openInvite()" type="button">OPEN INVITATION <span>♡</span></button>
   </div>
 </section>
@@ -104,6 +106,13 @@ h1{font-weight:normal;font-size:clamp(34px,8vw,54px);line-height:1.05;margin:12p
 function openInvite(){document.getElementById('cover').style.display='none';document.getElementById('invitation').style.display='block';window.scrollTo(0,0)}
 const arrivalTime=Date.parse(document.getElementById('guest-arrival').dateTime);
 function tick(){let diff=arrivalTime-Date.now();if(diff<0)diff=0;const vals={days:Math.floor(diff/86400000),hours:Math.floor(diff%86400000/3600000),minutes:Math.floor(diff%3600000/60000),seconds:Math.floor(diff%60000/1000)};for(const [id,v] of Object.entries(vals))document.getElementById(id).textContent=String(v).padStart(2,'0')}tick();setInterval(tick,1000);
+const params = new URLSearchParams(window.location.search);
+const guestName = (params.get('guest') || '').trim();
+if (guestName) {
+  document.getElementById('guestName').textContent = guestName;
+  document.getElementById('personalGuest').style.display = 'block';
+  document.title = guestName + ' | Mpikelelo & Siphiwe Wedding Invite';
+}
 </script>
 </body>
 </html>
